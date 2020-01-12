@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: bad-daemonset
+spec:
+  selector:
+    matchLabels:
+      name: bad-daemonset
+  template:
+    metadata:
+      labels:
+        name: bad-daemonset
+    spec:
+      hostNetwork: true
+      hostPID: true
+      volumes:
+        - name: dockersock
+          hostPath:
+            path: /var/run/docker.sock
+        - name: hostroot
+          hostPath:
+            path: /
+      containers:
+        - name: bad-daemonset
+          image: ubuntu
+          command: ["sleep", "36000"]
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: dockersock
+              mountPath: "/var/run/docker.sock"
+            - name: hostroot
+              mountPath: "/host"
+          securityContext:
+            privileged: true
+            capabilities:
+              add: ["NET_ADMIN", "SYS_ADMIN"]

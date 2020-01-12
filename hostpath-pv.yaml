@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: data-nfs-server-provisioner-0
+spec:
+  capacity:
+    storage: 200Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /srv/data-nfs-server-provisioner-0
+  claimRef:
+    # These values pertains to the deployment of the nfs-server-provisioner chart
+    namespace: nfs-storage
+    name: data-nfs-server-provisioner-0
