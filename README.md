@@ -19,5 +19,4 @@ FAIL - The Deployment bad-deployment is sharing the host PID
 FAIL - The Deployment bad-deployment is mounting a hostpath
 FAIL - Containers must not run as root in Deployment bad-deployment
 FAIL - Deployment bad-deployment must provide app/release labels for pod selectors
-Makefile:24: recipe for target 'test5' failed
 ```
