@@ -93,6 +93,12 @@ deny[msg] {
 }
 
 deny[msg] {
+	kubernetes.volumes[volume]
+	volume.hostPath
+	msg = sprintf("The %s %s is mounting a hostpath", [kubernetes.kind, kubernetes.name])
+}
+
+deny[msg] {
 	kubernetes.persistentvolumes[persistentvolume]
 	persistentvolume.spec.hostPath
 	msg = sprintf("The %s %s is mounting a hostpath", [kubernetes.kind, kubernetes.name])

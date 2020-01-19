@@ -1,18 +1,24 @@
+CONFTEST_IMAGE_TAG = v0.16.0
+
 .PHONY: al
-all: test test2 test3 test4
+all: test test2 test3 test4 test5
 
 .PHONY: test
 test:
-	-docker run --rm -v $(shell pwd):/project instrumenta/conftest test -p policy non-compliant-deployment.yaml
+	-cat non-compliant-deployment.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_IMAGE_TAG) test -p policy -
 
 .PHONY: test2
 test2:
-	-docker run --rm -v $(shell pwd):/project instrumenta/conftest test -p policy non-compliant-daemonset.yaml
+	-cat non-compliant-daemonset.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_IMAGE_TAG) test -p policy -
 
 .PHONY: test3
 test3:
-	-docker run --rm -v $(shell pwd):/project instrumenta/conftest test -p policy non-compliant-ingress.yaml
+	-cat non-compliant-ingress.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_IMAGE_TAG) test -p policy -
 
 .PHONY: test4
 test4:
-	-docker run --rm -v $(shell pwd):/project instrumenta/conftest test -p policy hostpath-pv.yaml
+	-cat hostpath-pv.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_IMAGE_TAG) test -p policy -
+
+.PHONY: test5
+test5:
+	-cat hostpath-pod.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_IMAGE_TAG) test -p policy -
