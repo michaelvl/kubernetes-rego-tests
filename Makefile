@@ -29,4 +29,4 @@ test5:
 
 .PHONY: test5c
 test5c:
-	-cat hostpath-pod.yaml | docker run -i --rm -v $(shell pwd):/project conftest-kubernetes:latest test -p policy -
+	-cat hostpath-pod.yaml | docker run -i --rm -v $(shell pwd):/project conftest-kubernetes:latest
