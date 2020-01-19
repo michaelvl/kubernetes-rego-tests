@@ -7,5 +7,6 @@ name = input.metadata.name
 
 warn[msg] {
   kubernetes.is_service
-  msg = sprintf("Found service %s but services are not allowed", [name])
+  input.spec.type = "LoadBalancer"
+  msg = sprintf("Found service %s of type %s", [name, input.spec.type])
 }

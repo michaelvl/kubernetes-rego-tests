@@ -30,3 +30,7 @@ test5:
 .PHONY: test5c
 test5c:
 	-cat hostpath-pod.yaml | docker run -i --rm -v $(shell pwd):/project conftest-kubernetes:latest
+
+.PHONY: test6
+test6:
+	-cat svc-loadbalancer.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
