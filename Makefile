@@ -34,3 +34,7 @@ test5c:
 .PHONY: test6
 test6:
 	-cat svc-loadbalancer.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+
+.PHONY: test7
+test7:
+	-cat contour-http-proxy.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -

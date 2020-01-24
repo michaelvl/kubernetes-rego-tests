@@ -1,0 +1,12 @@
+apiVersion: projectcontour.io/v1
+kind: HTTPProxy
+metadata:
+  name: server
+  namespace: my-http-proxy
+spec:
+  virtualhost:
+    fqdn: server.fake-example.com
+  tcpproxy:
+    services:
+    - name: backend
+      port: 80
