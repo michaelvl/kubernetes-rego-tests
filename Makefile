@@ -38,3 +38,7 @@ test6:
 .PHONY: test7
 test7:
 	-cat contour-http-proxy.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+
+.PHONY: test8
+test8:
+	-cat secrets.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
