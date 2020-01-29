@@ -16,6 +16,10 @@ is_pod {
 	kind = "Pod"
 }
 
+is_job {
+	kind = "Job"
+}
+
 split_image(image) = [image, "latest"] {
 	not contains(image, ":")
 }
@@ -48,6 +52,11 @@ pods[pod] {
 pods[pod] {
 	is_pod
 	pod = input
+}
+
+pods[pod] {
+	is_job
+	pod = input.spec.template
 }
 
 volumes[volume] {
