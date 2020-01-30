@@ -18,6 +18,7 @@ FAIL - bad-deployment in the Deployment bad-deployment is privileged
 FAIL - bad-deployment in the Deployment bad-deployment is not using a read only root filesystem
 FAIL - bad-deployment in the Deployment bad-deployment is running as root
 FAIL - bad-job in the Job bad-job does not have a memory limit set
+FAIL - non-compliant-daemonset in the DaemonSet non-compliant-daemonset does not have a memory limit set
 FAIL - The Deployment bad-deployment is connected to the host network
 FAIL - The Deployment bad-deployment is sharing the host PID
 FAIL - The Deployment bad-deployment is mounting a hostpath
