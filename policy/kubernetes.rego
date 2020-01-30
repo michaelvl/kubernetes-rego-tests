@@ -20,6 +20,10 @@ is_job {
 	kind = "Job"
 }
 
+is_daemonset {
+	kind = "DaemonSet"
+}
+
 split_image(image) = [image, "latest"] {
 	not contains(image, ":")
 }
@@ -56,6 +60,11 @@ pods[pod] {
 
 pods[pod] {
 	is_job
+	pod = input.spec.template
+}
+
+pods[pod] {
+	is_daemonset
 	pod = input.spec.template
 }
 
