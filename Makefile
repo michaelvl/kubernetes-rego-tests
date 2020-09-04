@@ -1,7 +1,7 @@
 CONFTEST_VERSION = v0.20.0
 
 .PHONY: all
-all: test test2 test3 test4 test5 test6 test7 test8 aws-tf
+all: test test2 test3 test4 test5 test6 test7 test8 test9 test10 aws-tf
 
 .PHONY: build
 build:
@@ -38,6 +38,15 @@ test7:
 .PHONY: test8
 test8:
 	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy secrets.yaml
+
+.PHONY: test9
+test9:
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy pod-with-init-container.yaml
+
+.PHONY: test10
+test10:
+       -docker run -i --rm -v $(shell pwd):/project $(IMAGE) test -p policy job-without-limits.yaml
+
 
 .PHONY: aws-tf
 aws-tf:
