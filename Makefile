@@ -1,44 +1,49 @@
-CONFTEST_VERSION = v0.16.0
+CONFTEST_VERSION = v0.20.0
 
 .PHONY: all
-all: test test2 test3 test4 test5
+all: test test2 test3 test4 test5 test6 test7 test8 aws-tf
 
 .PHONY: build
 build:
-	docker build --build-arg CONFTEST_VERSION=$(CONFTEST_VERSION) -t conftest-kubernetes .
+	docker build --build-arg CONFTEST_VERSION=$(CONFTEST_VERSION) -t conftest-regula .
 
 .PHONY: test
 test:
-	-cat non-compliant-deployment.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy non-compliant-deployment.yaml
 
 .PHONY: test2
 test2:
-	-cat non-compliant-daemonset.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy non-compliant-daemonset.yaml
 
 .PHONY: test3
 test3:
-	-cat non-compliant-ingress.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy non-compliant-ingress.yaml
 
 .PHONY: test4
 test4:
-	-cat hostpath-pv.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy hostpath-pv.yaml
 
 .PHONY: test5
 test5:
-	-cat hostpath-pod.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
-
-.PHONY: test5c
-test5c:
-	-cat hostpath-pod.yaml | docker run -i --rm -v $(shell pwd):/project conftest-kubernetes:latest
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy hostpath-pod.yaml
 
 .PHONY: test6
 test6:
-	-cat svc-loadbalancer.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy svc-loadbalancer.yaml
 
 .PHONY: test7
 test7:
-	-cat contour-http-proxy.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy contour-http-proxy.yaml
 
 .PHONY: test8
 test8:
-	-cat secrets.yaml | docker run -i --rm -v $(shell pwd):/project instrumenta/conftest:$(CONFTEST_VERSION) test -p policy -
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy secrets.yaml
+
+.PHONY: aws-tf
+aws-tf:
+	-docker run -i --rm -v $(shell pwd):/project:ro instrumenta/conftest:$(CONFTEST_VERSION) test -p policy-aws-terraform newplan.json
+
+.PHONY: aws-tf-c
+aws-tf-c:
+	#-docker run -i --rm -v $(shell pwd):/project:ro conftest-regula:latest test -p /regula newplan.json
+	-docker run -i --rm -v $(shell pwd)/policy-aws-terraform:/regula/policy/policy-aws-terraform:ro -v $(shell pwd):/project:ro conftest-regula:latest test -p /regula newplan.json
