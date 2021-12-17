@@ -7,8 +7,8 @@ RUN apk add git \
     && conftest pull -p policy/regula/lib github.com/fugue/regula/rego/lib \
     && conftest pull -p policy/regula/rules github.com/fugue/regula/rego/rules
 
-RUN mkdir -p /project
-COPY policy /project/
-COPY policy-aws-terraform /project/
+RUN mkdir -p /project/policy /project/policy-aws-terraform
+COPY policy /project/policy/
+COPY policy-aws-terraform /project/policy-aws-terraform/
 
 WORKDIR /project
