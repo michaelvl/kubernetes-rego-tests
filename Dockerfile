@@ -1,10 +1,14 @@
-ARG CONFTEST_VERSION
-FROM instrumenta/conftest:${CONFTEST_VERSION}
+ARG CONFTEST_VERSION=v0.28.3
+FROM openpolicyagent/conftest:${CONFTEST_VERSION}
 
 RUN apk add git \
     && mkdir /regula && cd /regula \
-    && conftest pull -p policy/ github.com/fugue/regula/conftest \
-    && conftest pull -p policy/regula/lib github.com/fugue/regula/lib \
-    && conftest pull -p policy/regula/rules github.com/fugue/regula/rules
+    && conftest pull -p policy/ github.com/fugue/regula/rego/conftest \
+    && conftest pull -p policy/regula/lib github.com/fugue/regula/rego/lib \
+    && conftest pull -p policy/regula/rules github.com/fugue/regula/rego/rules
+
+RUN mkdir -p /project
+COPY policy /project/
+COPY policy-aws-terraform /project/
 
 WORKDIR /project
